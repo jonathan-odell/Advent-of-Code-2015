@@ -1,0 +1,44 @@
+import os
+
+#Sets the working directory to wherever the script is so that it can find the puzzlefile
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+#Opens the puzzle file and reads it into puzzleinput variable
+with open('day2_puzzleinput.txt','r') as puzzlefile:
+    puzzleinput = puzzlefile.read() 
+
+#Splits the entire file into individual lines inside a list
+puzzles = puzzleinput.splitlines()
+
+games_rgb_total = []
+
+for puzzle in puzzles[0::]:
+    rgb = []
+    colors = ['red','green','blue']
+
+    for color in colors:
+        position = 0
+        cubecount = []
+        while puzzle.find(color,position) != -1:
+            position = puzzle.find(color,position)
+            cubecount.append(int(puzzle[position-3:position]))
+            position += 1
+
+        rgb.append(max(cubecount))
+    games_rgb_total.append(rgb)
+
+
+puzzle_counter = 1
+gamesum = 0
+step_two_sum = 0
+
+for game in games_rgb_total[0:]:
+    #print(game)
+    if game[0] <= 12 and game[1] <= 13 and game[2] <= 14:
+        gamesum += puzzle_counter
+    step_two_sum += (game[0]*game[1]*game[2])
+    #print((game[0]*game[1]*game[2]))
+    puzzle_counter += 1
+
+print(f'Step one answer: {gamesum}')
+print(f'Step two answer: {step_two_sum}')
